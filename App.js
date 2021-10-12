@@ -1,32 +1,12 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
+// screens
+import Login from './screens/Login';
+import Signup from './screens/Signup';
+import Welcome from './screens/Welcome';
 
-import LoginScreen from './components/Login';
-import AboutScreen from './components/Register';
-import HomeScreen from './components/Home';
-
-
-class HomeScreen extends React.Component() {
-  render(){
-    return (
-      <View style={styles.container}>
-        <Text>Home Screen</Text>
-      </View>
-    );
-  }
+export default function App() {
+  return <Signup />
 }
-
-const AppNavigator = createStackNavigator({
-  Home:{
-    screen: LoginScreen
-  },
-  About:{
-    screen: AboutScreen
-  }
-});
-
-export default createAppContainer(AppNavigator);
-
