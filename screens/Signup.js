@@ -38,8 +38,11 @@ import {
 
 const { brand , darkLight, primary} = Colors;
 
+//Keyboard avoiding wrapper
+import KeyboardAvoidWrapper from '../components/KeyboardAvoidingWrapper';
 
-const Signup = () => {
+
+const Signup = ({ navigation }) => {
 
     // Variables para manejar si la contraseña esta oculta o si se muestra
     const [hidePassword, setHidePassword] = useState(true);
@@ -47,7 +50,7 @@ const Signup = () => {
     // Variables para manejar si el calendario esta oculto o si se muestra
     const [show, setShow] = useState(false);
 
-    // Variables para guardar la fecha inicial para que funcione el calendario
+    // Variables para guardar la fecha inicial (predeterminada) para que funcione el calendario
     //El mes 0 se refiere a Enero
     const [date, setDate] = useState(new Date(2000,0,1));
 
@@ -68,114 +71,117 @@ const Signup = () => {
     }
 
     return(
-        <StyledContainer>
-            <StatusBar style= "dark" />
-            <InnerContainer>
+        <KeyboardAvoidWrapper>
+            <StyledContainer>
+                <StatusBar style= "dark" />
+                <InnerContainer>
 
-                <PageTitle> Proyecto REA </PageTitle>
-                <SubTitle>Account Sign Up</SubTitle>
+                    <PageTitle> Proyecto REA </PageTitle>
+                    <SubTitle>Account Sign Up</SubTitle>
 
-                {show && (
-                    <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode='date'
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                    />
-                )}
-
-                <Formik
-                    initialValues={ { fullName:'', dateOfBird:'',email: '', password: '', confirmPassword:'' } } //Valores iniciales en el Form
-                    onSubmit={ (values) => { //acción al mandar el formulario
-                        console.log(values);
-                    }}
-                >
-                    { ({ handleChange, handleBlur, handleSubmit, values }) => <StyledFormArea>
-                        <MyTextInput 
-                            label="Nombre Completo"
-                            icon="person"
-                            placeholder="Adrian Arboleda"
-                            placeholderTextColor={ darkLight }
-                            onChangeText={ handleChange('fullName') } //Accion al cambiar el texto del campo
-                            onBlur={ handleBlur('fullName') } //Accion onBlur
-                            value={values.fullName} //Valor otorgado al campo
-                            keyboardType="email-address"
+                    {show && (
+                        <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode='date'
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
                         />
+                    )}
 
-                        <MyTextInput 
-                            label="Correo Electrónico"
-                            icon="mail"
-                            placeholder="adrian@gmail.com"
-                            placeholderTextColor={ darkLight }
-                            onChangeText={ handleChange('email') } //Accion al cambiar el texto del campo
-                            onBlur={ handleBlur('email') } //Accion onBlur
-                            value={values.email} //Valor otorgado al campo
-                            keyboardType="email-address"
-                        />
+                    <Formik
+                        initialValues={ { fullName:'', dateOfBird:'',email: '', password: '', confirmPassword:'' } } //Valores iniciales en el Form
+                        onSubmit={ (values) => { //acción al mandar el formulario
+                            console.log(values);
+                            navigation.navigate("Welcome");
+                        }}
+                    >
+                        { ({ handleChange, handleBlur, handleSubmit, values }) => <StyledFormArea>
+                            <MyTextInput 
+                                label="Nombre Completo"
+                                icon="person"
+                                placeholder="Adrian Arboleda"
+                                placeholderTextColor={ darkLight }
+                                onChangeText={ handleChange('fullName') } //Accion al cambiar el texto del campo
+                                onBlur={ handleBlur('fullName') } //Accion onBlur
+                                value={values.fullName} //Valor otorgado al campo
+                                keyboardType="email-address"
+                            />
 
-                        <MyTextInput 
-                            label="Fecha de nacimiento"
-                            icon="calendar"
-                            placeholder="YYYY - mm - dd"
-                            placeholderTextColor={ darkLight }
-                            onChangeText={ handleChange('dateOfBird') } //Accion al cambiar el texto del campo
-                            onBlur={ handleBlur('dateOfBird') } //Accion onBlur
-                            value={ dob ? dob.toDateString() : '' } //Valor otorgado al campo
-                            isDate={ true }
-                            editable ={ false }
-                            showDatePicker = { showDatePicker }
-                        />
+                            <MyTextInput 
+                                label="Correo Electrónico"
+                                icon="mail"
+                                placeholder="adrian@gmail.com"
+                                placeholderTextColor={ darkLight }
+                                onChangeText={ handleChange('email') } //Accion al cambiar el texto del campo
+                                onBlur={ handleBlur('email') } //Accion onBlur
+                                value={values.email} //Valor otorgado al campo
+                                keyboardType="email-address"
+                            />
 
-                        <MyTextInput 
-                            label="Contraseña"
-                            icon="lock"
-                            placeholder="* * * * * *"
-                            placeholderTextColor={ darkLight }
-                            onChangeText={ handleChange('password') } //Accion al cambiar el texto del campo
-                            onBlur={ handleBlur('password') } //Accion onBlur
-                            value={ values.password } //Valor otorgado al campo
-                            secureTextEntry={ hidePassword }
-                            isPassword={ true }
-                            hidePassword={ hidePassword }
-                            setHidePassword={ setHidePassword }
-                        />
+                            <MyTextInput 
+                                label="Fecha de nacimiento"
+                                icon="calendar"
+                                placeholder="YYYY - mm - dd"
+                                placeholderTextColor={ darkLight }
+                                onChangeText={ handleChange('dateOfBird') } //Accion al cambiar el texto del campo
+                                onBlur={ handleBlur('dateOfBird') } //Accion onBlur
+                                value={ dob ? dob.toDateString() : '' } //Valor otorgado al campo
+                                isDate={ true }
+                                editable ={ false }
+                                showDatePicker = { showDatePicker }
+                            />
 
-                        <MyTextInput 
-                            label="Confrima contraseña"
-                            icon="lock"
-                            placeholder="* * * * * *"
-                            placeholderTextColor={ darkLight }
-                            onChangeText={ handleChange('confirmPassword') } //Accion al cambiar el texto del campo
-                            onBlur={ handleBlur('confirmPassword') } //Accion onBlur
-                            value={ values.confirmPassword } //Valor otorgado al campo
-                            secureTextEntry={ hidePassword }
-                            isPassword={ true }
-                            hidePassword={ hidePassword }
-                            setHidePassword={ setHidePassword }
-                        />
-                        
-                        <MsgBox>...</MsgBox>
+                            <MyTextInput 
+                                label="Contraseña"
+                                icon="lock"
+                                placeholder="* * * * * *"
+                                placeholderTextColor={ darkLight }
+                                onChangeText={ handleChange('password') } //Accion al cambiar el texto del campo
+                                onBlur={ handleBlur('password') } //Accion onBlur
+                                value={ values.password } //Valor otorgado al campo
+                                secureTextEntry={ hidePassword }
+                                isPassword={ true }
+                                hidePassword={ hidePassword }
+                                setHidePassword={ setHidePassword }
+                            />
 
-                        <StyledButton onPress={ handleSubmit }>
-                            <ButtonText>Crear cuenta</ButtonText>
-                        </StyledButton>
+                            <MyTextInput 
+                                label="Confrima contraseña"
+                                icon="lock"
+                                placeholder="* * * * * *"
+                                placeholderTextColor={ darkLight }
+                                onChangeText={ handleChange('confirmPassword') } //Accion al cambiar el texto del campo
+                                onBlur={ handleBlur('confirmPassword') } //Accion onBlur
+                                value={ values.confirmPassword } //Valor otorgado al campo
+                                secureTextEntry={ hidePassword }
+                                isPassword={ true }
+                                hidePassword={ hidePassword }
+                                setHidePassword={ setHidePassword }
+                            />
+                            
+                            <MsgBox>...</MsgBox>
 
-                        <Line/>
+                            <StyledButton onPress={ handleSubmit }>
+                                <ButtonText>Crear cuenta</ButtonText>
+                            </StyledButton>
 
-                        <ExtraView>
-                            <ExtraText>¿Ya tienes una cuenta? </ExtraText>
-                            <TextLink>
-                                <TextLinkContent> Inicia Sesión</TextLinkContent>
-                            </TextLink>
-                        </ExtraView>
+                            <Line/>
 
-                        </StyledFormArea> 
-                    }
-                </Formik>
-            </InnerContainer>
-        </StyledContainer>
+                            <ExtraView>
+                                <ExtraText>¿Ya tienes una cuenta? </ExtraText>
+                                <TextLink onPress={() => navigation.navigate("Login")}>
+                                    <TextLinkContent> Inicia Sesión</TextLinkContent>
+                                </TextLink>
+                            </ExtraView>
+
+                            </StyledFormArea> 
+                        }
+                    </Formik>
+                </InnerContainer>
+            </StyledContainer>
+        </KeyboardAvoidWrapper>
     );
 }
 

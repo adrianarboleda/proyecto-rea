@@ -29,7 +29,7 @@ const Welcome = () => {
                         <Avatar resizeMode ="cover" source = { require('./../assets/Avatar.png')}/>
 
                         {/* Boton de Log In */}
-                        <StyledButton onPress={ () => {} }>
+                        <StyledButton onPress={ () => { navigation.navigate("Login") } }>
                             <ButtonText>Cerrar Sesión</ButtonText>
                         </StyledButton>
 

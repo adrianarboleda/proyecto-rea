@@ -14,5 +14,9 @@ expo install formik
 expo install styled-components
 expo install constants
 
+- Para la navegacion entre vistas:
+npm install @react-navigation/native
+expo install react-native-screens react-native-safe-area-context
+
 *Pueden instalar todos en una sola linea asi:
 expo install styled-components constants formik @react-native-community/datetimepicker
